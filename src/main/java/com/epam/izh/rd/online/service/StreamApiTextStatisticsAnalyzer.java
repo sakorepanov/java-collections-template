@@ -6,8 +6,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Collections.*;
-
 /**
  * Данный класс обязан использовать StreamApi из функционала Java 8. Функциональность должна быть идентична
  * {@link SimpleTextStatisticsAnalyzer}.
@@ -45,11 +43,22 @@ public class StreamApiTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
 
     @Override
     public Map<String, Integer> countNumberOfWordsRepetitions(String text) {
-        return emptyMap();
+        return getWords(text)
+                .stream()
+                .collect(Collectors.toMap(p -> p, x -> Collections.frequency(getWords(text), x), (x1, x2) -> x1 ));
     }
 
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
-        return emptyList();
+        if (direction.equals(Direction.ASC)) {
+            return getWords(text)
+                    .stream()
+                    .sorted(Comparator.comparing(String::length))
+                    .collect(Collectors.toList());
+        }
+        return getWords(text)
+                .stream()
+                .sorted(Comparator.comparing(String::length).reversed())
+                .collect(Collectors.toList());
     }
 }

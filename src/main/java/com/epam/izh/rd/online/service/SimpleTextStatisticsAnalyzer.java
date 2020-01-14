@@ -2,12 +2,8 @@ package com.epam.izh.rd.online.service;
 
 import com.epam.izh.rd.online.helper.Direction;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
 import java.util.regex.Pattern;
-
-import static java.util.Collections.*;
 
 /**
  * Совет:
@@ -109,7 +105,11 @@ public class SimpleTextStatisticsAnalyzer implements TextStatisticsAnalyzer {
     @Override
     public List<String> sortWordsByLength(String text, Direction direction) {
         List<String> list = getWords(text);
-
-        return emptyList();
+        if (direction.equals(Direction.ASC)){
+            list.sort(Comparator.comparing(String::length));
+        } else {
+            list.sort(Comparator.comparing(String::length).reversed());
+        }
+        return list;
     }
 }
